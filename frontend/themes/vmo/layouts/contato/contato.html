@@ -1,0 +1,99 @@
+{{ define "main" }}
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <div class="px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+                <h1>{{ .Title }}</h1>
+                <p class="lead">{{ .Params.subtitle }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <form id="frmContact" class="was-validated">
+                <div class="row">
+                    <div class="col">
+                        <input type="text" class="form-control" name="name"
+                            placeholder="{{ i18n "form-contactus-name" }}" required>
+                        <div class="invalid-feedback">
+                            {{ i18n "form-contactus-help-name" }}
+                        </div>
+                    </div>
+                    <div class="col">
+                        <input type="email" class="form-control" name="email"
+                            placeholder="{{ i18n "form-contactus-email" }}" required>
+                        <div class="invalid-feedback">
+                            {{ i18n "form-contactus-help-email" }}
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <input type="text" class="form-control mt-3" name="subject"
+                            placeholder="{{ i18n "form-contactus-subject" }}" required>
+                        <div class="invalid-feedback">
+                            {{ i18n "form-contactus-help-subject" }}
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <textarea class="form-control mt-3" rows="10" name="message"
+                            placeholder="{{ i18n "form-contactus-message" }}" required></textarea>
+                        <div class="invalid-feedback">
+                            {{ i18n "form-contactus-help-message" }}
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <script src="https://verifypow.com/lib/captcha.min.js" async></script>
+                        <div class="CRLT-captcha mt-3" data-hashes="1024" data-key="{{ .Site.Params.captchaKey }}"
+                            data-whitelabel="false" data-disable-elements="button#btnSend">
+                            <p>{{ i18n "form-captcha" }}</p>
+                            <p>{{ i18n "form-captcha-note" }}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <button class="btn btn-success" type="submit"
+                            id="btnSend">{{ i18n "form-contactus-send" }}</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{{ end }}
+{{ define "javascript" }}
+<script>
+    var toastrOptions = {
+        closeButton: true,
+        progressBar: true
+    };
+    $(document).ready(function () {
+        $('form#frmContact').on('submit', function (event) {
+            event.preventDefault();
+            $('button#btnSend').prop('disabled', true);
+            $.post('{{ .Site.Params.apiBaseURI }}{{ .Site.Params.apiContactUs }}', {
+                'name': $('input[name="name"]').val(),
+                'email': $('input[name="email"]').val(),
+                'subject': $('input[name="subject"]').val(),
+                'message': $('textarea[name="message"]').val(),
+                'token': $('input[name="CRLT-captcha-token"]').val()
+            }, function (data, textStatus, jqXHR) {
+                if (data.error) {
+                    toastr.error(data.message, '{{ .Site.Title }}', toastrOptions);
+                    $('button#btnSend').prop('disabled', false);
+                    return;
+                }
+
+                toastr.success(data.message, '{{ .Site.Title }}', toastrOptions);
+                $('form#frmContact').trigger('reset');
+                $('button#btnSend').prop('disabled', false);
+            });
+        });
+    });
+</script>
+{{ end }}

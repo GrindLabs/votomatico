@@ -1,0 +1,7 @@
+json-rpc
+requests
+prettyconf
+werkzeug
+rq
+redis
+gunicorn

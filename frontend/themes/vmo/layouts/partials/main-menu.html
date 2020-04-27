@@ -1,0 +1,22 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light" role="navigation">
+    <div class="container">
+        <a class="navbar-brand" href="/">
+            <img src="/assets/favicon.png" class="d-inline-block align-top" alt="VotoMatico" title="VotoMatico">
+            {{ .Site.Title }}
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainMenu" aria-controls="mainMenu"
+            aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="mainMenu">
+            <ul class="navbar-nav">
+                {{ $currentPage := . }}
+                {{ range .Site.Menus.main }}
+                <li class='nav-item {{ if $currentPage.HasMenuCurrent "main" . }}active{{ end }}'>
+                    <a class="nav-link" href="{{ .URL }}" title="{{ .Title }}" alt="{{ .Title }}">{{ .Name }}</a>
+                </li>
+                {{ end }}
+            </ul>
+        </div>
+    </div>
+</nav>

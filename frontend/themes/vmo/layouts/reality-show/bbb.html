@@ -1,0 +1,326 @@
+{{ define "main" }}
+<div class="container">
+    <div class="row">
+        <div class="col-12 mt-3">
+            <div class="px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+                <h1>{{ .Title }}</h1>
+                <p class="lead">{{ i18n "page-bbb-subtitle" }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col mt-3">
+            <div class="progress loading-options invisible">
+                <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar">
+                    {{ i18n "loading-options" }}
+                </div>
+            </div>
+            <fieldset id="poll" class="found invisible">
+                <legend class="pt-3">{{ i18n "bbb-step1-title" }}</legend>
+                <div class="card-group">
+                    <div class="row">
+
+
+
+                    </div>
+                </div>
+                <legend class="pt-3">{{ i18n "bbb-step2-title" }}</legend>
+                <small class="text-muted">{{ i18n "globo-explain-password" }}</small>
+                <form id="frmAddAccount" action="?" class="was-validated">
+                    <div class="form-row mt-3">
+                        <div class="form-group col-xs-12 col-sm-12 col-md-5 col-lg-5">
+                            <label class="sr-only" for="email">{{ i18n "bbb-form-email" }}</label>
+                            <input type="email" class="form-control" id="email"
+                                placeholder='{{ i18n "bbb-form-email" }}' required>
+                            <div class="invalid-feedback">
+                                {{ i18n "bbb-form-email-wrong" }}
+                            </div>
+                        </div>
+                        <div class="form-group col-xs-12 col-sm-12 col-md-5 col-lg-5">
+                            <label class="sr-only" for="password">{{ i18n "bbb-form-password" }}</label>
+                            <input type="password" class="form-control" id="password"
+                                placeholder='{{ i18n "bbb-form-password" }}' required>
+                            <div class="invalid-feedback">
+                                {{ i18n "bbb-form-password-wrong" }}
+                            </div>
+                        </div>
+                        <div class="col">
+                            <button id="btnAddAccount" type="submit" class="btn btn-success">
+                                {{ i18n "bbb-form-add" }}
+                            </button>
+                        </div>
+                    </div>
+                </form>
+                <div class="row">
+                    <div class="col">
+                        <div class="card mt-1">
+                            <div class="card-body">
+                                <table id="accounts" class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>{{ i18n "table-head-name" }}</th>
+                                            <th>{{ i18n "table-head-email" }}</th>
+                                            <th>{{ i18n "table-head-action" }}</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <legend class="pt-3">{{ i18n "bbb-step3-title" }}</legend>
+                <small class="text-muted">{{ i18n "globo-explain-vote" }}</small>
+                <form id="frmDoVote" action="?">
+                    <input id="optionUUID" type="hidden">
+                    <div class="form-row mt-3">
+                        <div class="col-12 captcha-col">
+                            <div class="CRLT-captcha" data-key="{{ .Site.Params.captchaKey }}" data-callback="doVote"
+                                data-disable-elements="button#btnDoVote">
+                                <p>{{ i18n "form-captcha" }}</p>
+                                <p>{{ i18n "form-captcha-note" }}</p>
+                            </div>
+                        </div>
+                        <div class="col-12 button-col">
+                            <button id="btnDoVote" type="submit" class="btn btn-success">
+                                {{ i18n "bbb-form-vote" }}
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </fieldset>
+
+            <div class="row not-found invisible">
+                <div class="col">
+                    <div class="card text-white bg-danger">
+                        <div class="card-body">
+                            <h4 class="card-text text-center"></h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{{ end }}
+{{ define "javascript" }}
+<script>
+    var toastrOptions = {
+        closeButton: true,
+        progressBar: true
+    };
+
+    // Make sure the vote button is hidden
+    $('div.button-col').hide();
+
+    // Check options
+    $.get({
+        url: '{{ .Site.Params.apiBaseURI }}{{ .Site.Params.apiBbbPoll }}',
+        success: function (data, textStatus, jqXHR) {
+            if (data.error) {
+                $('.not-found > .col > .card > .card-body > .card-text').html(data.message);
+                $('.not-found').removeClass('invisible');
+                return;
+            }
+
+            var options = data.data.options;
+            var referer = data.data.referer;
+
+            options.forEach(function (option) {
+                var el = `
+                <div class="col">
+                    <div class="card mt-3 text-center poll-item" data-title="${option.optionTitle}"
+                        data-poll-resource-id="${option.pollId}" data-option-id="${option.optionId}"
+                        data-option-uuid="${option.optionUUID}" data-referer="${referer}">
+                `;
+
+                if (option.optionImageURL !== null) {
+                    el += `
+                    <img src="${option.optionImageURL}" class="card-img-top" alt="${option.optionTitle}"
+                            title="${option.optionTitle}">
+                    `;
+                }
+
+                el += `
+                    <div class="card-body">
+                            <h5 class="card-text">${option.optionTitle}</h5>
+                        </div>
+                    </div>
+                </div>
+                `;
+                $('.found > .card-group > .row').append(el);
+            });
+            $('.found').removeClass('invisible');
+        },
+        beforeSend: function () {
+            $('.loading-options').removeClass('invisible');
+        },
+        complete: function () {
+            $('.loading-options').remove();
+        }
+    });
+
+    // Verify hashes
+    $.post('{{ .Site.Params.apiBaseURI | safeURL }}{{ .Site.Params.apiCaptchaHashes | safeURL }}', {
+        'users': _.map(JSON.parse(localStorage.getItem('{{ .Site.Params.bbbStorageKey }}')), 'uuid')
+    }, function (data, textStatus, jqXHR) {
+        if (data.error) {
+            toastr.error(data.message, '{{ .Site.Title }}', toastrOptions);
+            return;
+        }
+
+        $('div.CRLT-captcha').attr('data-hashes', data.data);
+        $('<script>')
+            .attr('src', 'https://verifypow.com/lib/captcha.min.js')
+            .appendTo('div.captcha-col');
+    });
+
+    // Animate the buttons
+    function doVote() {
+        $('div.captcha-col').slideUp(400, function () {
+            $('div.button-col').slideDown().show();
+        });
+    }
+
+    // Remove the current account
+    function remove(uuid) {
+        var accounts = JSON.parse(localStorage.getItem('{{ .Site.Params.bbbStorageKey }}')) || [];
+
+        accounts = _.pullAllBy(accounts, [{
+            'uuid': uuid
+        }], 'uuid');
+        localStorage.setItem('{{ .Site.Params.bbbStorageKey }}', JSON.stringify(accounts));
+
+        var table = $('table#accounts').DataTable();
+        table.clear()
+            .rows
+            .add(accounts)
+            .draw();
+    }
+
+    $(document).ready(function () {
+        // Handle selected participant
+        $('body').on('click', 'div.poll-item', function (event) {
+            event.preventDefault();
+            $('div.poll-item').removeClass('text-white bg-success');
+            $('input#optionUUID').val($(this).attr('data-option-uuid'));
+            $(this).addClass('text-white bg-success');
+        });
+
+        // Handle add new accounts
+        $('form#frmAddAccount').submit(function (event) {
+            event.preventDefault();
+            $('button#btnAddAccount').prop('disabled', true);
+            $.post(
+                '{{ .Site.Params.apiBaseURI | safeURL }}{{ .Site.Params.apiGloboLogin | safeURL }}', {
+                    email: $('input#email').val(),
+                    password: $('input#password').val()
+                },
+                function (data, textStatus, jqXHR) {
+                    if (data.error) {
+                        toastr.error(data.message, '{{ .Site.Title }}', toastrOptions);
+                        return;
+                    }
+
+                    var accounts = JSON.parse(localStorage.getItem(
+                        '{{ .Site.Params.bbbStorageKey }}')) || [];
+                    accounts.push(data.data);
+                    accounts = _.uniqBy(accounts, 'uuid');
+                    localStorage.setItem('{{ .Site.Params.bbbStorageKey }}', JSON.stringify(
+                        accounts));
+                    var table = $('table#accounts').DataTable();
+                    table.clear()
+                        .rows
+                        .add(accounts)
+                        .draw();
+                }
+            ).done(function () {
+                $('input#email, input#password').val('');
+                $('button#btnAddAccount').prop('disabled', false);
+            });
+        });
+
+        // Handle do vote
+        $('form#frmDoVote').submit(function (event) {
+            event.preventDefault();
+
+            var optionUUID = $('input#optionUUID').val();
+            $('button#btnDoVote').prop('disabled', true);
+
+            if (optionUUID === '') {
+                toastr.error('{{ i18n "bbb-form-empty-option-error" }}', '{{ .Site.Title }}',
+                    toastrOptions);
+                $('button#btnDoVote').prop('disabled', false);
+            }
+
+            var accounts = JSON.parse(localStorage.getItem('{{ .Site.Params.bbbStorageKey }}')) || [];
+
+            if (accounts.length === 0) {
+                toastr.error('{{ i18n "bbb-form-empty-accounts-error" }}', '{{ .Site.Title }}',
+                    toastrOptions);
+                $('button#btnDoVote').prop('disabled', false);
+            }
+
+            var participant = $(`div.poll-item[data-option-uuid="${optionUUID}"]`);
+            var payload = {
+                users: new Array(),
+                referer: participant.attr('data-referer'),
+                pollResourceId: participant.attr('data-poll-resource-id'),
+                optionId: parseInt(participant.attr('data-option-id')),
+                optionUuid: participant.attr('data-option-uuid'),
+                token: $('input[name="CRLT-captcha-token"]').val(),
+                hashes: parseInt($('div.CRLT-captcha').attr('data-hashes'))
+            };
+
+            _.forEach(accounts, function (account) {
+                payload.users.push(account.uuid);
+            });
+
+            $.post(
+                '{{ .Site.Params.apiBaseURI | safeURL }}{{ .Site.Params.apiBbbVote | safeURL }}',
+                payload,
+                function (data, textStatus, jqXHR) {
+                    if (data.error) {
+                        toastr.error(data.message, '{{ .Site.Title }}', toastrOptions);
+                        $('button#btnDoVote').prop('disabled', false);
+                        return;
+                    }
+
+                    toastr.success('{{ i18n "vote-success" }}', '{{ .Site.Title }}', toastrOptions);
+                    $(location).attr('href',
+                        '{{ .Site.Params.pollTrackPagePath | safeURL }}' + data
+                        .data);
+                }
+            ).fail(function (jqXHR, textStatus, error) {
+                toastr.error('{{ i18n "unknown-error" }}', '{{ .Site.Title }}', toastrOptions);
+            });
+        });
+
+        // Draw table
+        $('table#accounts').DataTable({
+            responsive: true,
+            data: JSON.parse(localStorage.getItem('{{ .Site.Params.bbbStorageKey }}')) || [],
+            columns: [{
+                    data: function (row, type, set, meta) {
+                        return row.name;
+                    }
+                },
+                {
+                    data: function (row, type, set, meta) {
+                        return row.email;
+                    }
+                },
+                {
+                    data: null,
+                    render: function (data, type, row, meta) {
+                        return `<button type="button" class="btn btn-sm btn-danger" onclick="remove('${row.uuid}')" title="{{ i18n "bbb-form-remove" }}"><i class="fas fa-trash"></i></button>`;
+                    }
+                }
+            ],
+            language: {
+                url: '//cdn.datatables.net/plug-ins/1.10.19/i18n/Portuguese-Brasil.json'
+            }
+        });
+    });
+</script>
+{{ end }}

@@ -1,0 +1,6 @@
+.vscode/
+.git/
+__pycache__/
+*.env
+*.gcloudignore
+app.yaml

@@ -1,0 +1,60 @@
+baseURL = "https://votomatico.com.br/"
+languageCode = "pt-br"
+defaultContentLanguage = "ptbr"
+title = "VotoMático"
+googleAnalytics = "UA-90140626-4"
+theme = "vmo"
+
+[params]
+    # Meta setup
+    name = "VotoMatico"
+    description = "Vote diversas vezes nos candidatos dos seus realities shows favoritos e marque seus amigos em promoções do Instagram, automaticamente!"
+    keywords = "voto, voto automatico, bbb, big brother brasil, a fazenda, realities, reality, show, reality show, globo, record, instagram, votacao, enquete, automatico, promocao, paredao, marcar, marcacao, amigos, robos, bot, bots"
+    # VMO setup
+    captchaKey = "d9d273942ba054901e69d1306ed97610e64b5d52f94a"
+    watchPollInterval = 15000
+    pollTrackPagePath = "/acompanhe/?votacao="
+    # API setup
+    apiBaseURI = "https://api.votomatico.com.br"
+    apiGloboLogin = "/globo/login"
+    apiBbbStatus = "/globo/bbb/status"
+    apiBbbPoll = "/globo/bbb/poll"
+    apiBbbVote = "/globo/bbb/vote"
+    apiCaptchaHashes = "/captcha/hashes"
+    apiWatchPoll = "/poll"
+    apiContactUs = "/contactus"
+    # BBB setup
+    bbbStorageKey = "bbb"
+
+[languages]
+[languages.ptbr]
+    weight = 1
+    languageName = "Português (Brasil)"
+
+[[languages.ptbr.menu.main]]
+    name = "F.A.Q."
+    title = "Perguntas mais frequentes"
+    identifier = "faq"
+    weight = 1
+    url = "/faq/"
+
+[[languages.ptbr.menu.main]]
+    name = "Contato"
+    title = "Fale conosco!"
+    identifier = "contato"
+    weight = 2
+    url = "/contato/"
+
+[[languages.ptbr.menu.footer]]
+    name = "Termos de Uso"
+    title = "Termos de Uso"
+    identifier = "termos"
+    weight = 1
+    url = "/termos/"
+
+[[languages.ptbr.menu.footer]]
+    name = "Privacidade"
+    title = "Políticas de Privacidade"
+    identifier = "privacidade"
+    weight = 2
+    url = "/privacidade/"

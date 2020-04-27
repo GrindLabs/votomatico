@@ -1,0 +1,130 @@
+{{ define "main" }}
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <div class="px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+                <h1>{{ i18n "page-track-title" }}</h1>
+                <p class="lead">{{ i18n "page-track-subtitle" }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="card success invisible">
+                <div class="card-body">
+                    <table id="votes" class="table">
+                        <thead>
+                            <tr>
+                                <th>{{ i18n "table-head-name" }}</th>
+                                <th>{{ i18n "table-head-email" }}</th>
+                                <th>{{ i18n "table-head-result" }}</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+            <div class="card error text-white bg-danger invisible">
+                <div class="card-body">
+                    <h4 class="card-text text-center">{{ i18n "page-track-error" }}</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{{ end }}
+{{ define "javascript" }}
+<script src="https://cdn.jsdelivr.net/npm/kefir@3.8.6/dist/kefir.min.js"
+    integrity="sha256-E53dv1fLRG6zZX9fAJwJWjSf5kFrMbYRBl3Q/5wkk7I=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-url/2.5.3/url.min.js"></script>
+<script>
+    var toastrOptions = {
+        closeButton: true,
+        progressBar: true
+    };
+
+    $(document).ready(function () {
+        if (url('?votacao') === undefined) {
+            $('div.card.success').remove();
+            $('div.card.error').removeClass('invisible');
+        } else {
+            $('div.card.success').removeClass('invisible');
+
+            var watch = Kefir.stream(function (emitter) {
+                var timeoutId = setTimeout(function watchPoll() {
+                    $.get(
+                        '{{ .Site.Params.apiBaseURI | safeURL }}{{ .Site.Params.apiWatchPoll | safeURL }}/' + url('?votacao'),
+                        function (data, textStatus, jqXHR) {
+                            if (data.error) {
+                                emitter.error(data);
+                            } else {
+                                emitter.emit(data.data);
+
+                                var done = _.filter(data.data, {
+                                    'result': null
+                                });
+
+                                if (done.length === 0) {
+                                    emitter.end();
+                                } else {
+                                    setTimeout(watchPoll, {{ .Site.Params.watchPollInterval }});
+                                }
+                            }
+                        }
+                    );
+                });
+
+                return function () {
+                    clearTimeout(timeoutId);
+                }
+            });
+
+            watch.observe(
+                function onValue(poll) {
+                    var table = $('table#votes').DataTable();
+
+                    table.clear()
+                        .rows
+                        .add(poll)
+                        .draw();
+                },
+                function onError(err) {
+                    $('div.card.success').remove();
+                    $('div.card.error').removeClass('invisible');
+                    toastr.error(err.message, '{{ .Site.Title }}', toastrOptions);
+                },
+                function onEnd() {
+                    toastr.success('{{ i18n "poll-success" }}', '{{ .Site.Title }}',
+                        toastrOptions);
+                }
+            );
+        }
+
+        // Draw table
+        $('table#votes').DataTable({
+            responsive: true,
+            data: [],
+            columns: [{
+                    data: function (row, type, set, meta) {
+                        return row.name;
+                    }
+                },
+                {
+                    data: function (row, type, set, meta) {
+                        return row.email;
+                    }
+                },
+                {
+                    data: function (row, type, set, meta) {
+                        return ((row.result !== null && row.result >= 0) ? row.result +
+                            '{{ i18n "page-track-vote-done-suffix" }}' :
+                            '{{ i18n "page-track-vote-wait" }}');
+                    }
+                }
+            ],
+            language: {
+                url: '//cdn.datatables.net/plug-ins/1.10.19/i18n/Portuguese-Brasil.json'
+            }
+        });
+    });
+</script>
+{{ end }}

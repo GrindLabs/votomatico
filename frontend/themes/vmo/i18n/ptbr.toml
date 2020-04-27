@@ -1,0 +1,173 @@
+[maintanance-title]
+    other = "Manutenção"
+
+[maintanance-description]
+    other = "Voltaremos em breve, mas o bass continua dropando ;)"
+
+[404-subtitle]
+    other = "A página que está tentando acessar não existe"
+
+[unknown-error]
+    other = "O serviço de votação parou de responder, tente novamente..."
+
+[loading]
+    other = "Carregando..."
+
+[loading-options]
+    other = "Carregando opções..."
+
+[table-head-name]
+    other = "Nome"
+
+[table-head-email]
+    other = "E-mail"
+
+[table-head-action]
+    other = "Ação"
+
+[table-head-result]
+    other = "Resultado"
+
+[copyright]
+    other = "© 2019"
+
+[slogan]
+    other = "Vote automaticamente"
+
+[slogan-description]
+    other = "Use nosso sistema de resolução de captchas para votar automaticamente em reality shows interativos como BBB, A Fazenda, The Voice Brasil, The Voice Kids e muitos outros"
+
+[page-track-title]
+    other = "Acompanhe sua votação"
+
+[page-track-subtitle]
+    other = "O status dos seus usuários serão mostrados em tempo real"
+
+[page-track-error]
+    other = "Votação não encontrada"
+
+[page-track-vote-done-suffix]
+    other = " votos válidos"
+
+[page-track-vote-wait]
+    other = "Em andamento..."
+
+[page-faq-head-01]
+    other = "O que é o VotoMático?"
+
+[page-faq-desc-01]
+    other = "É uma ferramenta de votação automática para interagir com programas de reality show oferecidos por emissoras de televisão de conteúdo aberto como SBT, Globo, BAND, Record dentre outras. Programas como The Voice Brasil (Kids), Big Brother Brasil, A Fazenda e quaisquer outros que forneçam um site para que o público possa tomar uma decisão através do voto, poderá ser feito automaticamete pelo nosso sistema."
+
+[page-faq-head-02]
+    other = "Como isso é possível?"
+
+[page-faq-desc-02]
+    other = "Utilizando técnicas de reconhecimento de imagem e OCR (Optical Character Recognition ou Reconhecimento Ótico de Caracteres), conseguimos decifrar os captchas dos sistemas de votação utilizados nos respectivos sites dos realities shows e realizar o voto em um participante do programa ou para decisões que irão afetar os participantes ou o ambiente no qual estão, de maneira automática, até que a votação seja encerrada."
+
+[page-faq-head-03]
+    other = "O sistema é gratuito?"
+
+[page-faq-desc-03]
+    other = "Sim! A utilização do nosso sistema é gratuita. Contudo, para que possamos manter a qualidade dos nossos serviços e infraestrutura, utilizamos um captcha chamado de \"Proof Of Work\" cujo objetivo é partilhar do poder de processamento do seu dispositivo computacional, para minerar a moeda digital Monero (de sigla XMR). Esse tipo de tecnologia funciona da mesma forma que o reCaptcha do Google, não prejudica o seu sistema e não gera nenhum ônus para o usuário."
+
+[page-faq-head-04]
+    other = "Minha senha é salva no sistema?"
+
+[page-faq-desc-04]
+    other = "Não. Sua senha é utilizada uma única vez para realizar o login nos sistemas de terceiros (como a Globo.com) e não é salva em nosso banco de dados. Contudo, salvamos os cookies de sessão que são necessários para realizar as requisições nos servidores das emissoras, assim como para realizar os votos."
+
+[page-faq-head-05]
+    other = "E tem como remover os meus dados de sessão?"
+
+[page-faq-desc-05]
+    other = "Sim, por duas formas: (1) enviar um email para nós através da nossa página de Contato e requisitar a deleção de suas contas ou (2) acessar o seu painel de controle, no site oficial da emissora, e na aba de \"Dispositivos\" o usuário terá acesso a uma lista de aparelhos conectados, bastando apenas remover aquele que não for reconhecido."
+
+[page-bbb-subtitle]
+    other = "A casa mais vigiada do Brasil"
+
+[poll-open]
+    other = "Votação Aberta"
+
+[poll-close]
+    other = "Votação Encerrada"
+
+[poll-success]
+    other = "Votação finalizada!"
+
+[globo-explain-password]
+    other = "Nós não salvamos nenhum tipo de informação das contas fornecidas, todas as requisições são feitas diretamente aos servidores da Globo.com"
+
+[globo-explain-vote]
+    other = "Resolva o captcha, confirme o seu voto e acompanhe na próxima tela"
+
+[vote-success]
+    other = "Votação iniciada, obrigado!"
+
+[form-contactus-name]
+    other = "Nome"
+
+[form-contactus-email]
+    other = "E-Mail"
+
+[form-contactus-subject]
+    other = "Assunto"
+
+[form-contactus-message]
+    other = "Escreva sua mensagem"
+
+[form-contactus-send]
+    other = "Enviar"
+
+[form-contactus-help-name]
+    other = "Informe seu nome completo"
+
+[form-contactus-help-email]
+    other = "Informe um e-mail válido"
+
+[form-contactus-help-subject]
+    other = "Informe o assunto que deseja tratar"
+
+[form-contactus-help-message]
+    other = "Deixe sua mensagem"
+
+[form-captcha]
+    other = "Carregando captcha..."
+
+[form-captcha-note]
+    other = "Caso o captcha não carregue, desabilite o AdBlock"
+
+[bbb-step1-title]
+    other = "Selecione uma opção"
+
+[bbb-step2-title]
+    other = "Adicione suas contas"
+
+[bbb-step3-title]
+    other = "Confirme seu voto"
+
+[bbb-form-email]
+    other = "E-mail"
+
+[bbb-form-email-wrong]
+    other = "Informe seu e-mail cadastrado na Globo.com"
+
+[bbb-form-password]
+    other = "Senha"
+
+[bbb-form-password-wrong]
+    other = "Informe sua senha cadastrada na Globo.com"
+
+[bbb-form-add]
+    other = "Adicionar"
+
+[bbb-form-remove]
+    other = "Remover"
+
+[bbb-form-vote]
+    other = "Votar"
+
+[bbb-form-empty-option-error]
+    other = "Por favor, selecione uma opção"
+
+[bbb-form-empty-accounts-error]
+    other = "Por favor, adicione pelo menos uma conta"

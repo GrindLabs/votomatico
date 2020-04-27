@@ -1,0 +1,30 @@
+body {
+    background-color: var(--light);
+}
+
+a,
+a:hover {
+    text-decoration: none;
+    color: var(--success);
+}
+
+table td {
+    vertical-align: middle !important;
+}
+
+fieldset#poll div.card {
+    cursor: pointer;
+}
+
+fieldset#poll .poll-item.active {
+    border: 2px solid var(--success);
+}
+
+.page-item.active .page-link {
+    background-color: var(--success);
+    border-color: var(--success);
+}
+
+.loading-options>.progress-bar {
+    width: 100%;
+}

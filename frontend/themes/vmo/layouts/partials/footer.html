@@ -1,0 +1,16 @@
+<footer class="my-5 pt-5 text-muted text-center text-small">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <p class="mb-1">{{ i18n "copyright" }} {{ .Site.Title }}</p>
+                <ul class="list-inline">
+                    {{ range .Site.Menus.footer }}
+                    <li class="list-inline-item">
+                        <a href="{{ .URL }}" class="text-success" title="{{ .Title }}" alt="{{ .Title }}">{{ .Name }}</a>
+                    </li>
+                    {{ end }}
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>

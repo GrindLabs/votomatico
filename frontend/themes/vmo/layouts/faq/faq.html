@@ -1,0 +1,93 @@
+{{ define "main" }}
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <div class="px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+                <h1>{{ .Title }}</h1>
+                <p class="lead">{{ .Params.subtitle }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="accordion" id="faq">
+                <div class="card">
+                    <div class="card-header" id="headFaq01">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link text-success" type="button" data-toggle="collapse"
+                                data-target="#faq01" aria-expanded="true" aria-controls="faq01">
+                                {{ i18n "page-faq-head-01" }}
+                            </button>
+                        </h2>
+                    </div>
+                    <div id="faq01" class="collapse show" aria-labelledby="headFaq01" data-parent="#faq">
+                        <div class="card-body">
+                            {{ i18n "page-faq-desc-01" }}
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header" id="headFaq02">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link text-success collapsed" type="button" data-toggle="collapse"
+                                data-target="#faq02" aria-expanded="false" aria-controls="faq02">
+                                {{ i18n "page-faq-head-02" }}
+                            </button>
+                        </h2>
+                    </div>
+                    <div id="faq02" class="collapse" aria-labelledby="headFaq02" data-parent="#faq">
+                        <div class="card-body">
+                            {{ i18n "page-faq-desc-02" }}
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header" id="headFaq03">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link text-success collapsed" type="button" data-toggle="collapse"
+                                data-target="#faq03" aria-expanded="false" aria-controls="faq03">
+                                {{ i18n "page-faq-head-03" }}
+                            </button>
+                        </h2>
+                    </div>
+                    <div id="faq03" class="collapse" aria-labelledby="headFaq03" data-parent="#faq">
+                        <div class="card-body">
+                            {{ i18n "page-faq-desc-03" }}
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header" id="headFaq04">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link text-success collapsed" type="button" data-toggle="collapse"
+                                data-target="#faq04" aria-expanded="false" aria-controls="faq04">
+                                {{ i18n "page-faq-head-04" }}
+                            </button>
+                        </h2>
+                    </div>
+                    <div id="faq04" class="collapse" aria-labelledby="headFaq04" data-parent="#faq">
+                        <div class="card-body">
+                            {{ i18n "page-faq-desc-04" }}
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header" id="headFaq05">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link text-success collapsed" type="button" data-toggle="collapse"
+                                data-target="#faq05" aria-expanded="false" aria-controls="faq05">
+                                {{ i18n "page-faq-head-05" }}
+                            </button>
+                        </h2>
+                    </div>
+                    <div id="faq05" class="collapse" aria-labelledby="headFaq05" data-parent="#faq">
+                        <div class="card-body">
+                            {{ i18n "page-faq-desc-05" }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{{ end }}

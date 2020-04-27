@@ -1,0 +1,8 @@
+json-rpc
+requests
+prettyconf
+werkzeug
+numpy
+opencv-python
+python-slugify
+gunicorn
