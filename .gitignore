@@ -1,0 +1,29 @@
+# Ignore hidden folders
+.git/
+.vscode/
+.idea/
+.deploy/
+.tmp/
+
+# Ignore non-hidden folders
+__pycache__/
+build/
+logs/*
+vendor/
+node_modules/
+coverage/
+public/dist/
+*.egg-info/
+votomatico/resources/profiles/*
+
+# Accept files from ignored folders
+!.gitkeep
+
+# Ignore setup files
+*.env
+
+# Ignore files
+*.sh
+*.log
+*.egg
+*.DS_Store
